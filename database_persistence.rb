@@ -34,12 +34,13 @@ class DatabasePersistence
   end
 
   def create_new_list(list_name)
-    list_sql = 'INSERT INTO lists (name) VALUES ($1);'
-    query(list_sql, list_name)
+    sql = 'INSERT INTO lists (name) VALUES ($1);'
+    query(sql, list_name)
   end
 
   def delete_list(id)
-    #    @session[:lists].reject! { |list| list[:id] == id }
+    query('DELETE FROM todos WHERE list_id = $1', id)
+    query('DELETE FROM lists WHERE id = $1', id)
   end
 
   def update_list_name(id, new_name)
